@@ -1,15 +1,19 @@
-# 第4章 【GPIO】点亮LED
+# 第4章 GPIO——点亮LED
 
 ## 4.1 工程配置
+
+
 普通的LED通常是直连stm32的引脚，IO的驱动能力足够点亮一个LED，根据原理图，PC0-LED1, PA1-LED2，配置IO，LED通常是按下图配置。
 ![](assets/4.1-1.png)
 
-配置参数：
-- `GPIO output level`: 初始输出电平，可选高电平(High)，低电平(Low)
-- `GPIO mode`: GPIO 模式， 推挽输出(Output Push Pull)和开漏输出(Output Open Drain)
-- `GPIO Pull-up/Pull-down`: 上拉或下拉
-- `Maximum output speed`: IO速度
-- `User Label`: 用户标签，给IO取一个别名
+
+**配置参数：**   
+
+- `GPIO output level`: 初始输出电平，可选高电平(High)，低电平(Low)  
+- `GPIO mode`: GPIO 模式， 推挽输出(Output Push Pull)和开漏输出(Output Open Drain)  
+- `GPIO Pull-up/Pull-down`: 上拉或下拉   
+- `Maximum output speed`: IO速度   
+- `User Label`: 用户标签，给IO取一个别名   
 
 
 
