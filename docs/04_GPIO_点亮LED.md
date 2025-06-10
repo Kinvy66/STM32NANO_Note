@@ -1,5 +1,10 @@
 # 第4章 GPIO——点亮LED
 
+例程效果:
+
+- LED1 常亮
+- LED2 闪烁
+
 ## 4.1 工程配置
 
 
@@ -81,7 +86,62 @@ void MX_GPIO_Init(void)
 - 功能： 延时函数
 - 参数1：延时时间(毫秒)
 
-### 4.2.2 自定义微秒延时函数
+
+### 4.2.2 LED驱动代码
+分别在`./Bsp/Inc` 、`./Bsp/Src` 目录下创建 `led.h` 和 `led.c` 文件，文件内容如下:
+```c
+// led.h
+#ifndef __LED_H
+#define __LED_H
+
+#include "main.h"
+
+#define LED1_ON()       HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_RESET)
+#define LED1_OFF()      HAL_GPIO_WritePin(LED1_GPIO_Port, LED1_Pin, GPIO_PIN_SET)
+#define LED2_ON()       HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_RESET)
+#define LED2_OFF()      HAL_GPIO_WritePin(LED2_GPIO_Port, LED2_Pin, GPIO_PIN_SET)
+#define LED1_TOGGLE()     HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin)
+#define LED2_TOGGLE()     HAL_GPIO_TogglePin(LED2_GPIO_Port, LED2_Pin)
+
+
+#endif //__LED_H
+
+
+// led.c
+#include "led.h"
+```
+
+因为LED的驱动逻辑就是输出高低电平控制亮灭，所以我们就只定义了几个开关led的宏，在`.c` 文件中并没有实际的函数定义。
+
+### 4.2.3 主函数
+主函数 `./App/Inc/app.h` 和 `./App/Src/app.c`内容
+```c
+// app.h
+#ifndef __APP_H
+#define __APP_H
+#include "main.h"
+#include "led.h"
+
+void app_main(void);
+
+#endif //__APP_H
+
+// app.c
+#include "app.h"
+
+void app_main(void)
+{
+    while (1) {
+        LED1_TOGGLE();
+        LED2_ON();
+        HAL_Delay(500);
+    }
+}
+
+```
+
+
+### 4.2.4 自定义微秒延时函数
 下面的微秒延时使用了DWT(DataWatchpoint andTrace)，DWT是Cortex-M内核的资源，所以下面代码对于大部分Cortex-M内核的MCU都是适用的。
 
 ```c
